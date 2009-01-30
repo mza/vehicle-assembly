@@ -1,0 +1,6 @@
+Vehicle Assembly
+===============
+
+A small Rails plugin for preparing applications to run on Amazon Web Service's EC2 platform.
+
+Copyright (c) 2009 Matt Wood, released under the MIT license
