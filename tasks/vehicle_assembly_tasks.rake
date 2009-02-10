@@ -11,4 +11,9 @@ namespace :mission_control do
     VehicleAssembly::Parser.prepare "#{prefix}/lib/deploy/templates/capfile.erb", :for => "#{RAILS_ROOT}/Capfile"        
   end
   
+  task :launch do
+    vab = VehicleAssembly::Configuration.start_countdown_for "#{RAILS_ROOT}/config/cloud.rb"
+    vab.vehicle.launch
+  end
+  
 end
