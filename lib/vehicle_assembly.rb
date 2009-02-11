@@ -1,5 +1,7 @@
 prefix = "#{File.dirname(__FILE__)}"
 
+require 'active_support/inflector'
+
 require "#{prefix}/vehicle_assembly/machine"
 require "#{prefix}/vehicle_assembly/machinery"
 

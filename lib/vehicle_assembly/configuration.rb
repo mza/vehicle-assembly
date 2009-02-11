@@ -21,17 +21,13 @@ module VehicleAssembly
       vehicle.name = options[:for]
       self.instance_eval(&block)
     end
-    
-    def load_balancer(&block)
-      balancer = VehicleAssembly::Machinery::LoadBalancer.new
-      balancer.instance_eval(&block)
-      vehicle.machinery << balancer
-    end
-    
-    def database(&block)
-      database = Database.new
-      database.instance_eval(&block)
-      vehicle.machinery << database
+        
+    def method_missing(method_name, *args, &block)
+      class_name = "VehicleAssembly::Machinery::#{method_name.to_s.camelize}"
+      logger.debug "Setting up #{class_name}"
+      machinery = class_name.constantize.new
+      machinery.instance_eval(&block)
+      vehicle.machinery << machinery
     end
   
   end

@@ -3,7 +3,7 @@ module VehicleAssembly
     class LoadBalancer < VehicleAssembly::Machine
       
       def use(type)
-        logger.debug "MACHINERY TYPE: #{self.class.to_s}: #{type}"
+        logger.debug "Load balancing with #{type}"
       end
       
       def redundant

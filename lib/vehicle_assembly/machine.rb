@@ -10,7 +10,6 @@ module VehicleAssembly
     end
 
     def use(type)
-      logger.debug "MACHINERY TYPE: #{self.class.to_s}: #{type}"
     end
         
      def describe_task(name, &block)
