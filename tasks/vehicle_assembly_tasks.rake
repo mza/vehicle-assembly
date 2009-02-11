@@ -1,5 +1,4 @@
 prefix = "#{File.dirname(__FILE__)}/../"
-
 require "#{prefix}/lib/vehicle_assembly"
 
 namespace :mission_control do
@@ -10,10 +9,5 @@ namespace :mission_control do
     VehicleAssembly::Parser.prepare "#{prefix}/lib/deploy/templates/deploy.erb", :for => "#{RAILS_ROOT}/config/deploy.rb"    
     VehicleAssembly::Parser.prepare "#{prefix}/lib/deploy/templates/capfile.erb", :for => "#{RAILS_ROOT}/Capfile"        
   end
-  
-  task :launch do
-    vab = VehicleAssembly::Configuration.start_countdown_for "#{RAILS_ROOT}/config/cloud.rb"
-    vab.vehicle.launch
-  end
-  
+    
 end

@@ -1,6 +1,6 @@
 module VehicleAssembly
   module Machinery
-    class LoadBalancer
+    class LoadBalancer < VehicleAssembly::Machine
       
       def use(type)
         puts "MACHINERY TYPE: #{self.class.to_s}: #{type}"

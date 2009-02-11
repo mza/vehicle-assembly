@@ -1,6 +1,8 @@
 module VehicleAssembly
   class Configuration
 
+    include VehicleAssembly::Machinery
+
     attr_accessor :vehicle
                         
     def self.start_countdown_for(filename)
@@ -18,6 +20,12 @@ module VehicleAssembly
       balancer.instance_eval(&block)
       self.vehicle.machinery << balancer
     end
-        
+    
+    def database(&block)
+      database = Database.new
+      database.instance_eval(&block)
+      self.vehicle.machinery << database
+    end
+  
   end
 end

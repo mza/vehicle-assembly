@@ -1,5 +1,17 @@
+prefix = "#{File.dirname(__FILE__)}/../"
+require "#{prefix}/lib/vehicle_assembly"
+
 before "bootstrap:cold", "bootstrap:update_cache"
 after "deploy", "webapp:set_ownership"
+
+namespace :mission_control do
+  
+  task :launch do
+    vab = VehicleAssembly::Configuration.start_countdown_for "config/cloud.rb"
+    vab.vehicle.launch
+  end
+  
+end
 
 namespace :bootstrap do
 
