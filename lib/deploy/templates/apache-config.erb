@@ -2,3 +2,24 @@
   ServerName <%= instance %>
   DocumentRoot /var/www/<%= application %>
 </VirtualHost>
+
+<VirtualHost *:443>
+        RailsEnv production
+        ServerName <%= instance %>
+
+        SSLEngine on
+        SSLCertificateFile    /etc/apache2/server.crt
+        SSLCertificateKeyFile /etc/apache2/server.key
+        SSLProtocol all -SSLv2
+
+        DocumentRoot /var/www/<%= application %>
+        ErrorLog /var/log/apache2/apache.log
+
+        <Directory /var/rails/<%= application %>/public/>
+                Options ExecCGI FollowSymLinks
+                AddHandler cgi-script .cgi
+                AllowOverride all
+                Order allow,deny
+                Allow from all
+        </Directory>
+</VirtualHost>
