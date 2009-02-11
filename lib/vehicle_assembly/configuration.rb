@@ -3,7 +3,7 @@ module VehicleAssembly
 
     include VehicleAssembly::Machinery
 
-    attr_accessor :vehicle
+    attr_accessor :vehicle, :logger
                         
     def self.start_countdown_for(filename)
       config = self.new
@@ -13,18 +13,25 @@ module VehicleAssembly
     
     def initialize
       self.vehicle = VehicleAssembly::Vehicle.new
+      self.logger = Logger.new STDOUT
+    end
+    
+    def infrastructure(options, &block)
+      logger.debug "Preparing for: #{options[:for]}"
+      vehicle.name = options[:for]
+      self.instance_eval(&block)
     end
     
     def load_balancer(&block)
       balancer = VehicleAssembly::Machinery::LoadBalancer.new
       balancer.instance_eval(&block)
-      self.vehicle.machinery << balancer
+      vehicle.machinery << balancer
     end
     
     def database(&block)
       database = Database.new
       database.instance_eval(&block)
-      self.vehicle.machinery << database
+      vehicle.machinery << database
     end
   
   end

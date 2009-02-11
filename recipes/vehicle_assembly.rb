@@ -10,9 +10,9 @@ namespace :mission_control do
     vab = VehicleAssembly::Configuration.start_countdown_for "config/cloud.rb"
     vab.vehicle.machines.each do |machine|
     unless machine.task.nil?
-      self.desc "A new task, defined in #{machine.class.to_s}"      
+      self.desc "Task defined in #{machine.class.to_s}"      
       self.send :task, machine.task_name, &machine.task
-      run "#{machine.task_name}"
+      # run "#{machine.task_name}"
     end
     end
   end

@@ -3,19 +3,16 @@ module VehicleAssembly
     class Database < VehicleAssembly::Machine
             
       def master_slave
-        puts "Master/slave config"
+        logger.debug "Master/slave config"
       end
       
+      # Define the deployment task here
       def task
-        Proc.new do
+        describe_task "database" do
           run "bootstrap:cold"
         end
       end
-      
-      def task_name
-        "database"
-      end
-      
+            
     end
   end
 end
