@@ -2,7 +2,9 @@ module VehicleAssembly
   class Vehicle
     
     attr_accessor :machinery
-            
+    
+    alias :machines :machinery
+    
     def initialize
       self.machinery = []
     end

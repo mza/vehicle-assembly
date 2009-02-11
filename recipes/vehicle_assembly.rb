@@ -8,7 +8,13 @@ namespace :mission_control do
   
   task :launch do
     vab = VehicleAssembly::Configuration.start_countdown_for "config/cloud.rb"
-    vab.vehicle.launch
+    vab.vehicle.machines.each do |machine|
+    unless machine.task.nil?
+      self.desc "A new task, defined in #{machine.class.to_s}"      
+      self.send :task, machine.task_name, &machine.task
+      run "#{machine.task_name}"
+    end
+    end
   end
   
 end
@@ -26,7 +32,7 @@ namespace :bootstrap do
     mysql
     sqlite
   end
-  
+
   task :ubuntu do
     run "apt-get install ruby1.8-dev -y"
     run "apt-get install gcc -y"
