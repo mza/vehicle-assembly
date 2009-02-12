@@ -3,6 +3,13 @@ Vehicle Assembly
 
 A small Rails plugin for preparing applications to run on Amazon Web Service's EC2 platform.
 
+Recent updates
+--------------
+
++ Vehicle Assembly now supports ImageMagick and RMagick
++ Full, automated bootstrap and deployment
++ Support for database setup and migrations
+
 Getting started
 ---------------
 
