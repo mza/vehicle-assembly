@@ -3,8 +3,7 @@ rails_root = "#{prefix}/../../../"
 require "#{prefix}/lib/vehicle_assembly"
 
 before "bootstrap:cold", "bootstrap:update_cache"
-after "deploy", "webapp:gems"
-after "deploy", "webapp:set_ownership"
+after "deploy:cold", "webapp:init"
 
 namespace :mission_control do
   
@@ -36,6 +35,9 @@ namespace :bootstrap do
     mysql
     sqlite
     rcov
+    library
+    rmagick
+    library
     ssl
   end
 
@@ -74,7 +76,7 @@ namespace :bootstrap do
     
   desc "Bootstraps the web app environment"
   task :webapp do
-    run "mkdir /var/rails" 
+    run "mkdir -p /var/rails" 
   end
   
   desc "Bootstraps Apache 2 with Passenger"
@@ -154,7 +156,9 @@ namespace :webapp do
     put prepared, "/etc/apache2/sites-available/#{application}"
     run "ln -s /etc/apache2/sites-available/#{application} /etc/apache2/sites-enabled/000-#{application}"
     symlink
+    set_ownership
     remove_default
+    deploy.restart
   end
   
   task :gems do

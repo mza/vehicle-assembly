@@ -1,15 +1,25 @@
 set :application, "application_name"
+set :user, "root"
 set :git_user, "git_username"
 set :url, "http://url.com"
 set :instance, "IP.compute-1.amazonaws.com"
 
+# For git
 set :scm, "git"
 set :repository, "git@github.com:#{git_user}/#{application}.git"
 set :branch, "master"
-set :user, "root"
-set :deploy_to, "/var/rails/#{application}"
 set :scm_verbose, true
+
+# For SVN
+# set :scm, :subversion
+# set :scm_username, "user"
+# set :repository,  "repo"
+# set :deploy_via, :copy
+# set :keep_releases, 5
+
+# Deployment specifics
 set :passenger_root, "/usr/lib/ruby/gems/1.8/gems/passenger-2.0.6"
+set :deploy_to, "/var/rails/#{application}"
 
 ssh_options[:forward_agent] = true
 ssh_options[:keys] = ["#{ENV['HOME']}/.ec2/id_rsa-gsg-keypair"]
@@ -18,3 +28,35 @@ default_run_options[:pty] = true
 role :app, "#{instance}"
 role :web, "#{instance}"
 role :db,  "#{instance}", :primary => true
+
+# 3: cap bootstrap:cold
+# 2: cap database:init
+# 1: cap deploy:cold
+# Lift off!
+
+before "deploy:migrate", "deploy:configure"
+
+namespace :database do
+  
+  task :init do
+    deploy.setup
+    run "mkdir -p #{shared_path}/config"
+    put File.read("config/database.deploy"), "#{shared_path}/config/database.yml"    
+    run "mysqladmin -u root create juggernaut_production"
+  end
+  
+end
+
+namespace :deploy do
+  
+  task :configure do
+    link_config
+  end
+  
+  desc "Symlink shared configs and folders on each release."
+  task :link_config do
+    run "ln -s #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+    run "mkdir #{deploy_to}/current/public/images/admin/tmp"
+  end
+  
+end
