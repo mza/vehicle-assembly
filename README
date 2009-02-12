@@ -38,13 +38,15 @@ With the details in place, you're good to go.
 
 Boot strap your instance with Apache, Passenger and MySQL:
 
-cap bootstrap
+cap bootstrap:cold
+cap database:init
 
-Then, start your app:
+Then, deploy your app:
 
-cap webapp:init
+cap deploy:cold
 
 Hit up your EC2 instance to check everything is ship shape, and then point your public URL there. We'd recommend adding an Elastic IP to your service.
+
 
 Rails in the Cloud
 ------------------
